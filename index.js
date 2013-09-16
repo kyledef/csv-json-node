@@ -65,7 +65,8 @@ function convert(csv, options){
 				objArr[i - 1][csvRows[0][j]] = csvRows[i][j];
 			}
 		}
-		json = JSON.stringify(objArr, null, "\t");
+		if (options && options.dataType === "json"){ json = objArr; }
+		else { json = JSON.stringify(objArr, null, "\t");}
 	}
 	return json;
 }
