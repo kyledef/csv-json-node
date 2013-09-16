@@ -1,7 +1,9 @@
 var fs = require('fs');
 
-function parseCSVLine (line){
-	line = line.split(',');
+function parseCSVLine (line, delimiter){
+	if (!delimiter)delimiter = ",";
+	
+	line = line.split(delimiter);
 	var chunk,quote,i, j;
 
 	// check for splits performed inside quoted strings and correct if needed
@@ -39,7 +41,7 @@ function parseCSVLine (line){
 	return line;
 }
 
-function convert(csv){
+function convert(csv, options){
 	var json,
 		objArr,
 		row,
@@ -53,7 +55,8 @@ function convert(csv){
 
 		objArr = [];			
 		for (var i = 0; i < csvRows.length; i++){
-			csvRows[i] = parseCSVLine(csvRows[i]);
+			if (options && options.delimiter) { csvRows[i] = parseCSVLine(csvRows[i], options.delimiter); }
+			else { csvRows[i] = parseCSVLine(csvRows[i]); }			
 		}
 					
 		for (var i = 1; i < csvRows.length; i++){
@@ -68,8 +71,9 @@ function convert(csv){
 }
 
 
-function csvToJson(csv, callback){
-	var json = convert(csv);
+
+function csvToJson(csv, callback, options){
+	var json = convert(csv, options);
 	callback.call(undefined, json);
 }
 
