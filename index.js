@@ -39,7 +39,7 @@ function parseCSVLine (line){
 	return line;
 }
 
-function csvToJson(csv){
+function convert(csv){
 	var json,
 		objArr,
 		row,
@@ -67,5 +67,11 @@ function csvToJson(csv){
 	return json;
 }
 
-exports.parseCSVLine = parseCSVLine;
+
+function csvToJson(csv, callback){
+	var json = convert(csv);
+	callback.call(undefined, json);
+}
+
+//exports.parseCSVLine = parseCSVLine;
 exports.csvToJson = csvToJson;
